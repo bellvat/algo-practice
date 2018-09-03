@@ -1,0 +1,28 @@
+#!/bin/bash
+#script
+
+if [ -f ./dirhello1/test1 ] 
+then 
+  cp ./dirhello1/test1 ./dirhello2/test3
+  echo "..found test1"
+elif [ -d ./dirhello1 ] 
+then
+  touch ./dirhello1/test1
+  echo "add file"
+else
+  mkdir dirhello1
+  touch ./dirhello1/test1
+  echo "..made dir and file"
+fi
+
+#one line command as alias for copying inv-custom-order to _inject-inv-custom-order
+
+#below if for when pushing live
+if [ -f ./include/_inject-order.php ]
+  then
+    cp ./include/inventory-custom-order.php ./include/_old-inventory-custom-order.php
+    mv -f ./include/_inject-order.php ./include/inventory-custom-order.php
+    #svn commit -m "updated inventory-custom-order"
+fi
+
+#merging auto svn
