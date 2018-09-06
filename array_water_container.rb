@@ -1,4 +1,6 @@
 #given an array, with each element being the height of a block, each block being 1 unit wide, find the amount of water the array can hold
+#storing the largest values compared to the element, going left, and going right, storing them in arrays.
+#then finding the min, and subtracting it by the height of the block..
 
 def water(arr)
 	right = Array.new(arr.length) 
