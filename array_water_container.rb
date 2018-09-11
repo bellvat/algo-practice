@@ -28,4 +28,32 @@ def water(arr)
 
 end
 
-puts water([0,1,0,2,1,0,1,3,2,1,2,1])
+#puts water([0,1,0,2,1,0,1,3,2,1,2,1])
+
+def find_water(arr)
+	#create left and right arrays
+	n = arr.length
+	left = Array.new(n)
+	right = Array.new(n)
+	water = 0
+	
+	left[0] = arr[0]
+	(1...n).each do |i|
+		left[i] = [left[i-1],arr[i]].max
+	end
+
+	right[n-1] = arr[n-1]
+	(n-2).downto(0) do |i|
+		right[i] = [right[i+1],arr[i]].max
+	end
+
+	(0...n).each do |i|
+		water += [left[i],right[i]].min - arr[i]
+	end
+
+	return water
+
+
+end
+
+puts find_water([0,1,0,2,1,0,1,3,2,1,2,1])
