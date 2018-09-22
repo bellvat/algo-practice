@@ -1,0 +1,50 @@
+#!/bin/bash
+#script
+
+		for F in $(find . -maxdepth 3 -name _inject-order.php); do
+				parent=$(dirname $F)
+				gparent=$(dirname $parent)
+				(
+				cd $gparent 
+				if [ -f ./classes/inventory.class.php ] || [ -f ./include/_old-custom-order.php ] || ! grep -Fq 'common-v3' "./config.php";then 
+					echo "$F" >> ~/Documents/notes/list-no-inv.txt
+				else
+					svn up
+					cp ./include/inventory-custom-order.php ./include/_old-custom-order.php  
+					cp ./include/_inject-order.php ./include/inventory-custom-order.php  
+					svn commit -m "secure inventory injection: copy inventory-custom-order.php"	
+					echo "$folderName" >> ~/Documents/notes/pushed-stage.txt
+
+					folderName=$(basename $gparent)
+					#folderName=$($strgparent | sed -e 's/.\///g')
+
+					(
+					cd ~/Documents/testsvncopy/testsvn/trunk
+					trunkFind=$(find . -maxdepth 1 -name $folderName | wc -l)
+					if [ $trunkFind -eq 1 ]; then
+						(
+						cd $folderName
+						svn up
+						sleep 3
+						cp ~/Documents/testsvncopy/testsvn/branches/$folderName/include/_inject-order.php include/inventory-custom-order.php
+						#make sure that that is the only file being changed by checking svn status
+						lines=$(svn status | wc -l)
+						if [ $lines -eq 1 ];then
+							svn commit -m "secure inventory injection: modified inventory-custom-order.php"
+							echo "$folderName" >> ~/Documents/notes/pushed-live.txt
+						else
+							echo "$folderName" >> ~/Documents/notes/pushing-live-error.txt
+						fi
+						)
+					else
+							echo "$folderName" >> ~/Documents/notes/stage-live-folder-mismatch.txt
+					fi
+					)
+				fi
+				)
+
+		done
+
+
+#one line command as alias for copying inv-custom-order to _inject-inv-custom-order
+
