@@ -11,29 +11,21 @@ def intersect(nums1, nums2)
 		#Now that it is sorted, I can find where they intersect by iterating through it once
 		nl1 = nums1.length
 		nl2 = nums2.length
-		ml = [nl1,nl2].max
 		j = 0
 		k = 0
 		p nums1
 		p nums2
-		while j != nl1-1 && k != nl2-1
+		#this was where it wasn't working. the while..if i got that, i would have been able to solve it!!
+		while j<nl1 && k<nl2
 			#var j,k
 			if nums1[j] == nums2[k]
 				arr << nums1[j]
-				if j < nl1-1 
-					j += 1
-				end
-				if k < nl2-1
-					k += 1
-				end
+				j += 1
+				k += 1
 			elsif nums1[j] < nums2[k]
-				if j < nl1-1
-					j += 1
-				end
+				j += 1
 			else
-				if k < nl2-1
-					k += 1
-				end
+				k += 1
 			end
 		end
 	end
