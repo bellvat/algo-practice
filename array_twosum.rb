@@ -28,6 +28,21 @@ def two_sum1(key, arr)
 	end
 
 end
+#third way from leetcode submission(like the one above basically)
+def two_sum(nums, target)
+    n = nums.length - 1
+  hash = {}
+  arr = []
+    (0..n).each do |i|
+      if hash[nums[i]] == nil
+        hash[target-nums[i]] = i
+      else
+        arr << hash[nums[i]]
+        arr << i
+      end
+    end
+      return arr
+end
 
 two_sum1(9,[1,2,3,6])
 two_sum1(9,[3,2,3,6])
